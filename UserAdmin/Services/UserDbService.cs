@@ -9,10 +9,11 @@ namespace UserAdmin.Services
 
         public void Add(User user)
         {
-            var connection = new MySqlConnection(ConnectionString);
+            using var connection = new MySqlConnection(ConnectionString);
             connection.Open();
 
-            string sql = "";
+            string sql = @"INSERT INTO `users`(`username`, `email`, `password`, `registeredAt`) 
+VALUES (@Username,@Email,@Password,@RegisteredAt)";
 
             connection.Close();
         }
