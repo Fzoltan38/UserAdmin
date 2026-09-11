@@ -28,8 +28,6 @@
                     <TextBlock Text="Nincs még fiókod" Style="{StaticResource SubtitleText}" VerticalAlignment="Center"/>
                     <Button Content="Regisztrálj" Style="{StaticResource LinkButton}" Margin="6,0,0,0" x:Name="RegisterLink" Click="RegisterLink_Click"/>
                 </StackPanel>
-
-
             </StackPanel>
         </Border>
     </Grid>
