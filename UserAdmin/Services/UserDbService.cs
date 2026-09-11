@@ -26,7 +26,7 @@ VALUES (@Username,@Email,@Password,@RegisteredAt)";
             connection.Close();
         }
 
-        public User FindByEmail(string email)
+        public User? FindByEmail(string email)
         {
             using var connection = new MySqlConnection(ConnectionString);
             connection.Open();
@@ -51,16 +51,44 @@ VALUES (@Username,@Email,@Password,@RegisteredAt)";
                 };
 
                 connection.Close();
-
                 return user;
             }
+            else
+            {
+                connection.Close();
+                return null;
+            }
+        }
 
+        public List<User> GetAll()
+        {
+            var users = new List<User>();
+
+            using var connection = new MySqlConnection(ConnectionString);
+            connection.Open();
+
+            string sql = @"SELECT `username`, `email`, `password`, `registeredAt` FROM `users` ORDER BY RegisteredAt";
+
+            var cmd = new MySqlCommand(sql, connection);
+            var reader = cmd.ExecuteReader();
+
+            while (reader.Read()) 
+            {
+                var user = new User
+                {
+                    Username = reader.GetString(0),
+                    Email = reader.GetString(1),
+                    Password = reader.GetString(2),
+                    RegisteredAt = reader.GetDateTime(3)
+                };
+
+                users.Add(user);
+            }
 
             connection.Close();
 
-            return null;
-           
-           
+            return users;
+
         }
     }
 }
