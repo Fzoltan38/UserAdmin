@@ -61,11 +61,18 @@ namespace UserAdmin.Views
             };
 
             NavigationService.Navigate(new MemberEditPage(_userDbService, user));
+
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            var member = MembersGrid.SelectedItem as User;
 
+            _userDbService.Delete(member.Id.ToString());
+
+            MessageBox.Show("Sikeres törlés", "Törlés",MessageBoxButton.OK,MessageBoxImage.Information);
+
+            MembersGrid.ItemsSource = _userDbService.GetAll();
         }
     }
 }

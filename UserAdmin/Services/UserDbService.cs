@@ -8,6 +8,23 @@ namespace UserAdmin.Services
     {
         public string ConnectionString = "Server=localhost;Database=useradmin;User=root;Password=;";
 
+
+        public void Delete(string id)
+        {
+            using var connection = new MySqlConnection(ConnectionString);
+            connection.Open();
+
+            string sql = "DELETE FROM `users` WHERE id = @id";
+
+            var cmd = new MySqlCommand(sql, connection);
+
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+            connection.Close();
+
+        }
         public void Update(User user)
         {
             using var connection = new MySqlConnection(ConnectionString);
