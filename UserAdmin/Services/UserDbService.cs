@@ -7,6 +7,26 @@ namespace UserAdmin.Services
     {
         public string ConnectionString = "Server=localhost;Database=useradmin;User=root;Password=;";
 
+        public void Update(User user)
+        {
+            using var connection = new MySqlConnection(ConnectionString);
+            connection.Open();
+
+            string sql = @"UPDATE `users` SET `username`=@username,`email`=@email,`password`=@password WHERE email = @validEmail;";
+
+            var cmd = new MySqlCommand(sql, connection);
+
+            cmd.Parameters.AddWithValue("@username", user.Username);
+            cmd.Parameters.AddWithValue("@email", user.Email);
+            cmd.Parameters.AddWithValue("@password", user.Password);
+            cmd.Parameters.AddWithValue("@validEmail", user.Email);
+
+            cmd.ExecuteNonQuery();
+
+            connection.Close();
+
+        }
+
         public void Add(User user)
         {
             using var connection = new MySqlConnection(ConnectionString);
