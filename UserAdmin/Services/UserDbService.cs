@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using System.Windows;
 using UserAdmin.Models;
 
 namespace UserAdmin.Services
@@ -12,14 +13,16 @@ namespace UserAdmin.Services
             using var connection = new MySqlConnection(ConnectionString);
             connection.Open();
 
-            string sql = @"UPDATE `users` SET `username`=@username,`email`=@email,`password`=@password WHERE email = @validEmail;";
+            MessageBox.Show(user.Id.ToString());
+
+            string sql = @"UPDATE `users` SET `username`=@username,`email`=@email,`password`=@password WHERE id = @id;";
 
             var cmd = new MySqlCommand(sql, connection);
 
             cmd.Parameters.AddWithValue("@username", user.Username);
             cmd.Parameters.AddWithValue("@email", user.Email);
             cmd.Parameters.AddWithValue("@password", user.Password);
-            cmd.Parameters.AddWithValue("@validEmail", user.Email);
+            cmd.Parameters.AddWithValue("@id", user.Id);
 
             cmd.ExecuteNonQuery();
 
@@ -87,7 +90,7 @@ VALUES (@Username,@Email,@Password,@RegisteredAt)";
             using var connection = new MySqlConnection(ConnectionString);
             connection.Open();
 
-            string sql = @"SELECT `username`, `email`, `password`, `registeredAt` FROM `users` ORDER BY RegisteredAt";
+            string sql = @"SELECT `id`,`username`, `email`, `password`, `registeredAt` FROM `users` ORDER BY RegisteredAt";
 
             var cmd = new MySqlCommand(sql, connection);
             var reader = cmd.ExecuteReader();
@@ -96,10 +99,11 @@ VALUES (@Username,@Email,@Password,@RegisteredAt)";
             {
                 var user = new User
                 {
-                    Username = reader.GetString(0),
-                    Email = reader.GetString(1),
-                    Password = reader.GetString(2),
-                    RegisteredAt = reader.GetDateTime(3)
+                    Id = reader.GetInt32(0),
+                    Username = reader.GetString(1),
+                    Email = reader.GetString(2),
+                    Password = reader.GetString(3),
+                    RegisteredAt = reader.GetDateTime(4)
                 };
 
                 users.Add(user);

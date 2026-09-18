@@ -54,6 +54,7 @@ namespace UserAdmin.Views
 
             var user = new User
             {
+                Id = member.Id,
                 Username = member.Username,
                 Email = member.Email,
                 Password = member.Password
