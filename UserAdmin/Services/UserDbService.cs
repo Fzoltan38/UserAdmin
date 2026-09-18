@@ -3,7 +3,7 @@ using UserAdmin.Models;
 
 namespace UserAdmin.Services
 {
-    class UserDbService
+    public class UserDbService
     {
         public string ConnectionString = "Server=localhost;Database=useradmin;User=root;Password=;";
 
